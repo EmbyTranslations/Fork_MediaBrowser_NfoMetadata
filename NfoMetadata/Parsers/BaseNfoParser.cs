@@ -1157,6 +1157,7 @@ namespace NfoMetadata.Parsers
             var type = PersonType.Actor;  // If type is not specified assume actor
             var role = string.Empty;
             int? sortOrder = null;
+            string imageUrl = null;
 
             var providerIds = new ProviderIdDictionary();
 
@@ -1207,6 +1208,16 @@ namespace NfoMetadata.Parsers
                                 }
                                 break;
                             }
+                        case "thumb":
+                            {
+                                var val = await reader.ReadElementContentAsStringAsync().ConfigureAwait(false);
+
+                                if (!string.IsNullOrEmpty(val))
+                                {
+                                    imageUrl = val;
+                                }
+                                break;
+                            }
 
                         default:
 
@@ -1233,7 +1244,8 @@ namespace NfoMetadata.Parsers
                 Name = name.Trim(),
                 Role = role,
                 Type = type,
-                ProviderIds = providerIds
+                ProviderIds = providerIds,
+                ImageUrl = imageUrl,
             };
         }
 
